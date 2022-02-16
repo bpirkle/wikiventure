@@ -1,7 +1,7 @@
 package main
 
 var Messages = map[string]string{
-	"welcome": "Welcome to wikiventure!\nYou may type 'help' for help, or 'quit' to exit.\n",
+	"welcome": "Welcome to wikiventure!\nType 'help' for help, or 'quit' to exit.\n",
 }
 
 var Actions = map[int]*Action{

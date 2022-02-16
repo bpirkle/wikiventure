@@ -29,6 +29,7 @@ func (e *Event) ProcessEvent(player *Actor) int {
 		} else {
 			Output("green", "\t"+e.Description)
 			if e.Evt != "" {
+				Output("green", "\t"+Events[e.Evt].Description)
 				e.Morale = e.Morale + Events[e.Evt].ProcessEvent(player)
 			}
 		}

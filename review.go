@@ -41,13 +41,6 @@ func runReview(actors Actors) {
 	}
 
 	Output("green", "Code Review is over.")
-	/*
-		for x := 0; x < actors.Len(); x++ {
-			if actors[x].Morale > 0 {
-				Output("blue", actors[x].Name+" is still working on the change!!!")
-			}
-		}
-	*/
 }
 
 func outputActors(color string, actors Actors) {
