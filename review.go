@@ -1,9 +1,11 @@
 package main
 
+import "math/rand"
+
 func runReview(actors Actors) {
 	round := 1
 	numAlive := actors.Len()
-	playerAction := 0
+	action := 0
 	for {
 		Output("green", "\nCode Review patchset ", round, " begins...")
 		outputActors("green", actors)
@@ -11,21 +13,19 @@ func runReview(actors Actors) {
 			if actors[x].Morale <= 0 {
 				continue
 			}
-			playerAction = 0
 			if !actors[x].Npc {
 				Output("blue", "What Do you want to do?")
-				Output("blue", "\t1 - Run")
-				Output("blue", "\t2 - Evade")
-				Output("blue", "\t3 - Attack")
-				UserInput(&playerAction)
-			}
-			if playerAction == 2 {
-				Output("green", "Yeah, I'm removing this")
+				for option := 0; option < len(actors[x].Tactics); option++ {
+					Output("blue", "\t", option+1, " - ", Tactics[actors[x].Tactics[option]].Name)
+				}
+				UserInput(&action)
+				action--
+			} else {
+				action = rand.Intn(len(actors[x].Tactics))
 			}
 			tgt := selectTarget(actors, x)
 			if tgt != -1 {
-				// Output("red", "player: ", x, ", target: ", tgt)
-				var effect, tactic = actors[x].Act()
+				var effect, tactic = actors[x].Act(action)
 				actors[tgt].Morale = actors[tgt].Morale + effect
 				if actors[tgt].Morale <= 0 {
 					numAlive--
@@ -33,18 +33,21 @@ func runReview(actors Actors) {
 				Output("green", actors[x].Name+" uses ", tactic.Name, " to affect Morale by ", effect, ".")
 			}
 		}
-		if reviewEnded(actors) || playerAction == 1 {
+		if isReviewEnded(actors) {
 			break
 		} else {
 			round++
 		}
 	}
-	Output("green", "Code Review is over...")
-	for x := 0; x < actors.Len(); x++ {
-		if actors[x].Morale > 0 {
-			Output("blue", actors[x].Name+" is still working on the change!!!")
+
+	Output("green", "Code Review is over.")
+	/*
+		for x := 0; x < actors.Len(); x++ {
+			if actors[x].Morale > 0 {
+				Output("blue", actors[x].Name+" is still working on the change!!!")
+			}
 		}
-	}
+	*/
 }
 
 func outputActors(color string, actors Actors) {
@@ -73,7 +76,7 @@ func selectTarget(actors []Actor, selectorIndex int) int {
 	return -1
 }
 
-func reviewEnded(actors []Actor) bool {
+func isReviewEnded(actors []Actor) bool {
 	count := make([]int, 2)
 	count[0] = 0
 	count[1] = 0

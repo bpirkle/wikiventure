@@ -11,17 +11,23 @@ func (g *Game) Play() {
 	g.Player = *new(Actor)
 	g.Player.Name = "Jimmy Wales"
 	g.Player.Morale = 100
-	g.Player.Tactics = []int{1}
+	g.Player.Tactics = []int{1, 2, 3, 4, 5, 6}
 	g.Player.CurrentLocation = "CommandLine"
 
 	Output("blue", Messages["welcome"])
 	for {
 		Output("blue", LocationMap[g.Player.CurrentLocation].Description)
+
+		// We really shouldn't process an event unless location has changed.
+		// Otherwise you can stay in AFK forever and get crazy morale by hitting Return over and over
 		g.ProcessEvents(LocationMap[g.Player.CurrentLocation].Events)
 		if g.Player.Morale <= 0 {
 			Output("white", "You have given up hope on your change. Game over!!!")
 			return
+		} else {
+			Output("white", "You are still working on your change.")
 		}
+
 		Output("blue", "Morale:", g.Player.Morale)
 		Output("green", "You can go to these places:")
 		for _, loc := range LocationMap[g.Player.CurrentLocation].Transitions {

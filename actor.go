@@ -12,8 +12,8 @@ type Actor struct {
 	CurrentLocation string
 }
 
-func (a *Actor) Act() (int, *Tactic) {
-	tactic := a.Tactics[0]
+func (a *Actor) Act(action int) (int, *Tactic) {
+	tactic := a.Tactics[action]
 	return Tactics[tactic].Use(), Tactics[tactic]
 }
 

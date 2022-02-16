@@ -6,13 +6,13 @@ import (
 )
 
 type Tactic struct {
-	minAtt int
-	maxAtt int
-	Name   string
+	base  int
+	bonus int
+	Name  string
 }
 
 func (t *Tactic) Use() int {
-	return t.minAtt + rand.Intn(t.maxAtt-t.minAtt)
+	return t.base + rand.Intn(t.bonus)
 }
 
 func init() {
