@@ -15,22 +15,22 @@ func runReview(actors Actors) {
 			}
 			if !actors[x].Npc {
 				Output("blue", "What Do you want to do?")
-				for option := 0; option < len(actors[x].Tactics); option++ {
-					Output("blue", "\t", option+1, " - ", Tactics[actors[x].Tactics[option]].Name)
+				for option := 0; option < len(actors[x].Actions); option++ {
+					Output("blue", "\t", option+1, " - ", Actions[actors[x].Actions[option]].Name)
 				}
 				UserInput(&action)
 				action--
 			} else {
-				action = rand.Intn(len(actors[x].Tactics))
+				action = rand.Intn(len(actors[x].Actions))
 			}
 			tgt := selectTarget(actors, x)
 			if tgt != -1 {
-				var effect, tactic = actors[x].Act(action)
+				var effect, actionName = actors[x].Act(action)
 				actors[tgt].Morale = actors[tgt].Morale + effect
 				if actors[tgt].Morale <= 0 {
 					numAlive--
 				}
-				Output("green", actors[x].Name+" uses ", tactic.Name, " to affect Morale by ", effect, ".")
+				Output("green", actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
 			}
 		}
 		if isReviewEnded(actors) {

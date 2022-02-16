@@ -11,7 +11,7 @@ func (g *Game) Play() {
 	g.Player = *new(Actor)
 	g.Player.Name = "Jimmy Wales"
 	g.Player.Morale = 100
-	g.Player.Tactics = []int{1, 2, 3, 4, 5, 6}
+	g.Player.Actions = []int{1, 2, 3, 4, 5, 6}
 	g.Player.CurrentLocation = "CommandLine"
 
 	Output("blue", Messages["welcome"])

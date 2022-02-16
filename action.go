@@ -5,14 +5,14 @@ import (
 	"time"
 )
 
-type Tactic struct {
+type Action struct {
 	base  int
 	bonus int
 	Name  string
 }
 
-func (t *Tactic) Use() int {
-	return t.base + rand.Intn(t.bonus)
+func (a *Action) Use() int {
+	return a.base + rand.Intn(a.bonus)
 }
 
 func init() {

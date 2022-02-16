@@ -4,7 +4,7 @@ var Messages = map[string]string{
 	"welcome": "Welcome to wikiventure!\nYou may type 'help' for help, or 'quit' to exit.\n",
 }
 
-var Tactics = map[int]*Tactic{
+var Actions = map[int]*Action{
 	1: {Name: "Good suggestion", base: 1, bonus: 15},
 	2: {Name: "Great suggestion", base: 10, bonus: 15},
 	3: {Name: "Bad suggestion", base: -15, bonus: 15},
@@ -14,12 +14,12 @@ var Tactics = map[int]*Tactic{
 }
 
 var Reviewers = map[int]*Actor{
-	0: {Name: "Helpful Novice", Morale: 50, Tactics: []int{1, 3, 4, 5}, Npc: true},
-	1: {Name: "Helpful Peer", Morale: 55, Tactics: []int{1, 2, 3, 5}, Npc: true},
-	2: {Name: "Helpful Mentor", Morale: 55, Tactics: []int{1, 2, 5}, Npc: true},
-	3: {Name: "Hurtful Novice", Morale: 50, Tactics: []int{1, 3, 4, 6}, Npc: true},
-	4: {Name: "Hurtful Peer", Morale: 55, Tactics: []int{1, 3, 4, 6}, Npc: true},
-	5: {Name: "Hurtful Mentor", Morale: 55, Tactics: []int{1, 3, 4, 6}, Npc: true},
+	0: {Name: "Helpful Novice", Morale: 50, Actions: []int{1, 3, 4, 5}, Npc: true},
+	1: {Name: "Helpful Peer", Morale: 55, Actions: []int{1, 2, 3, 5}, Npc: true},
+	2: {Name: "Helpful Mentor", Morale: 55, Actions: []int{1, 2, 5}, Npc: true},
+	3: {Name: "Hurtful Novice", Morale: 50, Actions: []int{1, 3, 4, 6}, Npc: true},
+	4: {Name: "Hurtful Peer", Morale: 55, Actions: []int{1, 3, 4, 6}, Npc: true},
+	5: {Name: "Hurtful Mentor", Morale: 55, Actions: []int{1, 3, 4, 6}, Npc: true},
 }
 
 var Events = map[string]*Event{

@@ -6,15 +6,15 @@ package main
 type Actor struct {
 	Name    string
 	Morale  int
-	Tactics []int
+	Actions []int
 	Npc     bool
 
 	CurrentLocation string
 }
 
-func (a *Actor) Act(action int) (int, *Tactic) {
-	tactic := a.Tactics[action]
-	return Tactics[tactic].Use(), Tactics[tactic]
+func (a *Actor) Act(actionOption int) (int, string) {
+	action := a.Actions[actionOption]
+	return Actions[action].Use(), Actions[action].Name
 }
 
 type Actors []Actor
