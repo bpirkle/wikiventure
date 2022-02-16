@@ -8,19 +8,16 @@ type Actor struct {
 	Morale     int
 	Evasion    int
 	Initiative int
-	Tactic     int
+	Tactics    []int
 	Npc        bool
 	Items      []int
 
 	CurrentLocation string
 }
 
-func (a *Actor) Equip(t int) {
-	a.Tactic = t
-}
-
-func (a *Actor) Attack() int {
-	return Tactics[a.Tactic].Use()
+func (a *Actor) Act() (int, *Tactic) {
+	tactic := a.Tactics[0]
+	return Tactics[tactic].Use(), Tactics[tactic]
 }
 
 type Actors []Actor

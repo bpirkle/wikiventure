@@ -21,12 +21,12 @@ var Tactics = map[int]*Tactic{
 }
 
 var Reviewers = map[int]*Actor{
-	0: {Name: "Helpful Novice", Morale: 50, Tactic: 1, Npc: true},
-	1: {Name: "Helpful Peer", Morale: 55, Tactic: 1, Npc: true},
-	2: {Name: "Helpful Mentor", Morale: 55, Tactic: 3, Npc: true},
-	3: {Name: "Hurtful Novice", Morale: 50, Tactic: 2, Npc: true},
-	4: {Name: "Hurtful Peer", Morale: 55, Tactic: 2, Npc: true},
-	5: {Name: "Hurtful Mentor", Morale: 55, Tactic: 4, Npc: true},
+	0: {Name: "Helpful Novice", Morale: 50, Tactics: []int{1}, Npc: true},
+	1: {Name: "Helpful Peer", Morale: 55, Tactics: []int{1}, Npc: true},
+	2: {Name: "Helpful Mentor", Morale: 55, Tactics: []int{3}, Npc: true},
+	3: {Name: "Hurtful Novice", Morale: 50, Tactics: []int{2}, Npc: true},
+	4: {Name: "Hurtful Peer", Morale: 55, Tactics: []int{2}, Npc: true},
+	5: {Name: "Hurtful Mentor", Morale: 55, Tactics: []int{4}, Npc: true},
 }
 
 var Events = map[string]*Event{
@@ -39,7 +39,7 @@ var Events = map[string]*Event{
 }
 
 var LocationMap = map[string]*Location{
-	"CommandLine": {Description: "You just pushed your first change.", Transitions: []string{"Phabricator, Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{}},
+	"CommandLine": {Description: "You just pushed your first change.", Transitions: []string{"Phabricator", "Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{}},
 	"Phab":        {Description: "You are looking at your Phabricator task.", Transitions: []string{"Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "unsolicitedCriticism"}},
 	"Gerrit":      {Description: "You are looking at  your change in Gerrit.", Transitions: []string{"Phab", "Chat", "Meeting", "AFK"}, Events: []string{}}, // Items: []int{2}},
 	"Chat":        {Description: "You are in Slack/Element/IRC/whatever-you-prefer.", Transitions: []string{"Phab", "Gerrit", "Meeting", "AFK"}, Events: []string{"insightfulComment"}},

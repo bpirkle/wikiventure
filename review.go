@@ -37,7 +37,8 @@ func runReview(actors Actors) {
 			tgt := selectTarget(actors, x)
 			if tgt != -1 {
 				// Output("red", "player: ", x, ", target: ", tgt)
-				attp1 := actors[x].Attack() - actors[tgt].Evasion
+				var effect, tactic = actors[x].Act()
+				attp1 := effect - actors[tgt].Evasion
 				if attp1 < 0 {
 					attp1 = 0
 				}
@@ -45,7 +46,7 @@ func runReview(actors Actors) {
 				if actors[tgt].Morale <= 0 {
 					numAlive--
 				}
-				Output("green", actors[x].Name+" uses ", Tactics[actors[x].Tactic].Name, " to affect Morale by ", attp1, ".")
+				Output("green", actors[x].Name+" uses ", tactic.Name, " to affect Morale by ", attp1, ".")
 			}
 		}
 		if reviewEnded(actors) || playerAction == 1 {

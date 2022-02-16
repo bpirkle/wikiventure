@@ -9,12 +9,13 @@ type Game struct {
 }
 
 func (g *Game) Play() {
+	// We should prompt people for their name. They can pick Jimmy if they want to.
 	g.Player = *new(Actor)
 	g.Player.Name = "Jimmy Wales"
 	g.Player.Initiative = 1 + rand.Intn(100)
 	g.Player.Morale = 100
-	g.Player.Tactic = 1
-	g.Player.CurrentLocation = "Phab"
+	g.Player.Tactics = []int{1}
+	g.Player.CurrentLocation = "CommandLine"
 
 	Output("blue", Messages["welcome"])
 	for {
