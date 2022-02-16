@@ -1,4 +1,4 @@
-package main
+package wikiventure
 
 // Actor Used for both the player and all npcs
 // By convention, if a variable name is "player", it refers

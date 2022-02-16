@@ -1,4 +1,4 @@
-package main
+package wikiventure
 
 var Messages = map[string]string{
 	"welcome": "Welcome to wikiventure!\nYou are a new developer trying to get your first change merged\nThe game ends when you either get your patch merged, or run out of Morale and abandon it.\nType 'help' for help, or 'quit' to exit.\n",

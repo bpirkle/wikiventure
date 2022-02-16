@@ -1,4 +1,4 @@
-package main
+package wikiventure
 
 import (
 	"math/rand"

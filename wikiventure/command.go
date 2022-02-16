@@ -1,4 +1,4 @@
-package main
+package wikiventure
 
 import (
 	"os"
@@ -37,7 +37,7 @@ func ProcessCommands(player *Actor, input string) {
 		Output("blue", "\tquit Abandon your change and exit the game")
 		Output("blue", "\n\n")
 	case "quit":
-		Output("green", "You have abandoned your patch. Goodbye...")
+		Output("green", "You have abandoned your change. Goodbye...")
 		os.Exit(0)
 	default:
 	}
