@@ -20,15 +20,17 @@ func (g *Game) Play() {
 
 		// We really shouldn't process an event unless location has changed.
 		// Otherwise you can stay in AFK forever and get crazy morale by hitting Return over and over
+		// And you can also get a Story event immediately after a CodeReview event without entering
+		// a command, which is a little confusing.
 		g.ProcessEvents(LocationMap[g.Player.CurrentLocation].Events)
 		if g.Player.Morale <= 0 {
-			Output("white", "You have given up hope on your change. Game over!!!")
+			Output("white", "\nYou have given up hope on your change. Game over.")
 			return
 		} else {
-			Output("white", "You are still working on your change.")
+			Output("white", "\tYou are still working on your change.")
 		}
 
-		Output("blue", "Morale:", g.Player.Morale)
+		Output("blue", "\tMorale:", g.Player.Morale)
 		Output("green", "You can go to these places:")
 		for _, loc := range LocationMap[g.Player.CurrentLocation].Transitions {
 			Outputf("green", "\t%s", loc)

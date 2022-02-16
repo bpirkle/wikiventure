@@ -16,24 +16,24 @@ type Event struct {
 func (e *Event) ProcessEvent(player *Actor) int {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
+	moraleAdjustment := 0
 	if e.Chance >= r1.Intn(100) {
 		if e.Type == "CodeReview" {
 			// Generate reviewer
 			reviewer := new(Actor)
 			*reviewer = *Reviewers[1+rand.Intn(len(Reviewers)-1)]
 			reviewer.Npc = true
-			Output("green", "A "+reviewer.Name+" reviews your code.")
+			Output("green", "\tA "+reviewer.Name+" reviews your code.")
 
 			actors := Actors{*reviewer, *player}
-			runReview(actors)
+			moraleAdjustment = runReview(actors)
 		} else {
-			Output("green", "\t"+e.Description)
+			moraleAdjustment = e.Morale
+			Output("green", "\t"+e.Description+" affecting your morale by ", e.Morale)
 			if e.Evt != "" {
-				Output("green", "\t"+Events[e.Evt].Description)
-				e.Morale = e.Morale + Events[e.Evt].ProcessEvent(player)
+				moraleAdjustment += Events[e.Evt].ProcessEvent(player)
 			}
 		}
-		return e.Morale
 	}
-	return 0
+	return moraleAdjustment
 }

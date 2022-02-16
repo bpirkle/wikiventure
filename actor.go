@@ -24,5 +24,5 @@ func (slice Actors) Len() int {
 }
 
 func (a *Actor) Output(color string) {
-	Output(color, a.Name, ": Morale ", a.Morale)
+	Output(color, "\t", a.Name, ": Morale ", a.Morale)
 }

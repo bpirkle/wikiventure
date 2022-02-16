@@ -1,7 +1,7 @@
 package main
 
 var Messages = map[string]string{
-	"welcome": "Welcome to wikiventure!\nType 'help' for help, or 'quit' to exit.\n",
+	"welcome": "Welcome to wikiventure!\nYou are a new developer trying to get your first change merged\nThe game ends when you either get your patch merged, or run out of Morale and abandon it.\nType 'help' for help, or 'quit' to exit.\n",
 }
 
 var Actions = map[int]*Action{
@@ -23,12 +23,12 @@ var Reviewers = map[int]*Actor{
 }
 
 var Events = map[string]*Event{
-	"codeReview":   {Type: "CodeReview", Chance: 10, Description: "You receive a Code Review comment.", Morale: 0, Evt: ""},
-	"criticism":    {Type: "Story", Chance: 10, Description: "Out of nowhere, someone criticises you unfairly.", Morale: -50, Evt: ""},
-	"wikilove":     {Type: "Story", Chance: 10, Description: "A colleague sends you wikilove.", Morale: +50, Evt: ""},
-	"unbreakNow":   {Type: "Story", Chance: 10, Description: "You broke the wikis", Morale: -30, Evt: ""},
-	"extraHoliday": {Type: "Story", Chance: 10, Description: "You are granted an extra holiday", Morale: +30, Evt: "recharging"},
-	"recharging":   {Type: "Story", Chance: 100, Description: "Doing non-computer things you enjoy improves your morale.", Morale: +10, Evt: ""},
+	"codeReview":   {Type: "CodeReview", Chance: 25, Description: "You receive a Code Review comment", Morale: 0, Evt: ""},
+	"criticism":    {Type: "Story", Chance: 25, Description: "Someone criticises you unfairly", Morale: -50, Evt: ""},
+	"wikilove":     {Type: "Story", Chance: 25, Description: "A colleague sends you wikilove", Morale: +50, Evt: ""},
+	"unbreakNow":   {Type: "Story", Chance: 25, Description: "You broke the wikis", Morale: -30, Evt: ""},
+	"extraHoliday": {Type: "Story", Chance: 20, Description: "You are granted an extra holiday", Morale: +30, Evt: "recharging"},
+	"recharging":   {Type: "Story", Chance: 100, Description: "Doing non-computer things you enjoy improves your morale", Morale: +10, Evt: ""},
 }
 
 var LocationMap = map[string]*Location{

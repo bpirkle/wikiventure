@@ -47,3 +47,10 @@ func UserInputln() string {
 	text, _ := reader.ReadString('\n')
 	return text
 }
+
+func UserInputContinue() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("\n Press return to continue the code review")
+	text, _ := reader.ReadString('\n')
+	return text
+}

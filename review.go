@@ -4,13 +4,14 @@ import (
 	"math/rand"
 )
 
-func runReview(actors Actors) {
+func runReview(actors Actors) int {
+	playerMoraleEffect := 0
 	consensus := 0
 	round := 1
 	action := 0
+	outputActors("green", actors)
 	for {
 		Output("green", "\nCode Review patchset ", round, " begins...")
-		outputActors("green", actors)
 		for x := 0; x < actors.Len(); x++ {
 			if actors[x].Morale <= 0 {
 				continue
@@ -28,7 +29,13 @@ func runReview(actors Actors) {
 			tgt := selectTarget(actors, x)
 			if tgt != -1 {
 				var effect, actionName = actors[x].Act(action)
-				actors[tgt].Morale = actors[tgt].Morale + effect
+				actors[tgt].Morale += effect
+
+				// Remember effect on player's morale so we can return it
+				if !actors[tgt].Npc {
+					playerMoraleEffect += effect
+				}
+
 				if effect < 0 {
 					consensus -= effect
 				} else {
@@ -38,8 +45,9 @@ func runReview(actors Actors) {
 					consensus = 100
 				}
 
-				Output("green", actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
-				Output("green", "Consensus is at ", consensus, "%")
+				Output("green", "\t"+actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
+				actors[tgt].Output("blue")
+				Output("green", "\tConsensus is at ", consensus, "%")
 			}
 		}
 		if isReviewEnded(actors, consensus) {
@@ -47,9 +55,11 @@ func runReview(actors Actors) {
 		} else {
 			round++
 		}
+		UserInputContinue()
 	}
 
-	Output("green", "Code Review is over.")
+	Output("green", "Code Review is over.\n")
+	return playerMoraleEffect
 }
 
 func outputActors(color string, actors Actors) {
