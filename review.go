@@ -1,10 +1,12 @@
 package main
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 func runReview(actors Actors) {
+	consensus := 0
 	round := 1
-	numAlive := actors.Len()
 	action := 0
 	for {
 		Output("green", "\nCode Review patchset ", round, " begins...")
@@ -27,13 +29,20 @@ func runReview(actors Actors) {
 			if tgt != -1 {
 				var effect, actionName = actors[x].Act(action)
 				actors[tgt].Morale = actors[tgt].Morale + effect
-				if actors[tgt].Morale <= 0 {
-					numAlive--
+				if effect < 0 {
+					consensus -= effect
+				} else {
+					consensus += effect
 				}
+				if consensus > 100 {
+					consensus = 100
+				}
+
 				Output("green", actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
+				Output("green", "Consensus is at ", consensus, "%")
 			}
 		}
-		if isReviewEnded(actors) {
+		if isReviewEnded(actors, consensus) {
 			break
 		} else {
 			round++
@@ -69,7 +78,11 @@ func selectTarget(actors []Actor, selectorIndex int) int {
 	return -1
 }
 
-func isReviewEnded(actors []Actor) bool {
+func isReviewEnded(actors []Actor, consensus int) bool {
+	if consensus >= 100 {
+		return true
+	}
+
 	count := make([]int, 2)
 	count[0] = 0
 	count[1] = 0

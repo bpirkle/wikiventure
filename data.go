@@ -23,7 +23,7 @@ var Reviewers = map[int]*Actor{
 }
 
 var Events = map[string]*Event{
-	"codeReview":   {Type: "CodeReview", Chance: 100, Description: "You receive a Code Review comment.", Morale: 0, Evt: ""},
+	"codeReview":   {Type: "CodeReview", Chance: 10, Description: "You receive a Code Review comment.", Morale: 0, Evt: ""},
 	"criticism":    {Type: "Story", Chance: 10, Description: "Out of nowhere, someone criticises you unfairly.", Morale: -50, Evt: ""},
 	"wikilove":     {Type: "Story", Chance: 10, Description: "A colleague sends you wikilove.", Morale: +50, Evt: ""},
 	"unbreakNow":   {Type: "Story", Chance: 10, Description: "You broke the wikis", Morale: -30, Evt: ""},
