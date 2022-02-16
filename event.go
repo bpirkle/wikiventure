@@ -19,13 +19,12 @@ func (e *Event) ProcessEvent(player *Actor) int {
 	if e.Chance >= r1.Intn(100) {
 		if e.Type == "CodeReview" {
 			// Generate reviewer
-			opp := new(Actor)
-			*opp = *Reviewers[1+rand.Intn(len(Reviewers)-1)]
-			opp.Npc = true
-			opp.Initiative = 1 + rand.Intn(100)
-			Output("green", "A "+opp.Name+" reviews your code.")
+			reviewer := new(Actor)
+			*reviewer = *Reviewers[1+rand.Intn(len(Reviewers)-1)]
+			reviewer.Npc = true
+			Output("green", "A "+reviewer.Name+" reviews your code.")
 
-			actors := Actors{*player, *opp}
+			actors := Actors{*reviewer, *player}
 			runReview(actors)
 		} else {
 			Output("green", "\t"+e.Description)

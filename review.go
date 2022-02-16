@@ -1,21 +1,10 @@
 package main
 
-import (
-	"math/rand"
-	"sort"
-)
-
 func runReview(actors Actors) {
-	sort.Sort(actors)
-
-	//	outputActors("red", actors)
 	round := 1
 	numAlive := actors.Len()
 	playerAction := 0
 	for {
-		for x := 0; x < actors.Len(); x++ {
-			actors[x].Evasion = 0
-		}
 		Output("green", "\nCode Review patchset ", round, " begins...")
 		outputActors("green", actors)
 		for x := 0; x < actors.Len(); x++ {
@@ -31,32 +20,25 @@ func runReview(actors Actors) {
 				UserInput(&playerAction)
 			}
 			if playerAction == 2 {
-				actors[x].Evasion = rand.Intn(15)
-				Output("green", "Evasion set to:", actors[x].Evasion)
+				Output("green", "Yeah, I'm removing this")
 			}
 			tgt := selectTarget(actors, x)
 			if tgt != -1 {
 				// Output("red", "player: ", x, ", target: ", tgt)
 				var effect, tactic = actors[x].Act()
-				attp1 := effect - actors[tgt].Evasion
-				if attp1 < 0 {
-					attp1 = 0
-				}
-				actors[tgt].Morale = actors[tgt].Morale - attp1
+				actors[tgt].Morale = actors[tgt].Morale + effect
 				if actors[tgt].Morale <= 0 {
 					numAlive--
 				}
-				Output("green", actors[x].Name+" uses ", tactic.Name, " to affect Morale by ", attp1, ".")
+				Output("green", actors[x].Name+" uses ", tactic.Name, " to affect Morale by ", effect, ".")
 			}
 		}
 		if reviewEnded(actors) || playerAction == 1 {
 			break
 		} else {
-			//			outputActors("green", actors)
 			round++
 		}
 	}
-	//	outputActors("black", actors)
 	Output("green", "Code Review is over...")
 	for x := 0; x < actors.Len(); x++ {
 		if actors[x].Morale > 0 {

@@ -9,7 +9,6 @@ type Location struct {
 	Description string
 	Transitions []string
 	Events      []string
-	Items       []int
 }
 
 func (loc *Location) CanGoTo(locName string) bool {
@@ -27,5 +26,5 @@ func FindLocationName(inputName string) (string, error) {
 			return key, nil
 		}
 	}
-	return "", errors.New("Can't find localtion " + inputName)
+	return "", errors.New("Can't find location " + inputName)
 }

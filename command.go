@@ -13,50 +13,29 @@ func ProcessCommands(player *Actor, input string) {
 		return
 	}
 	command := strings.ToLower(tokens[0])
-	itemName := ""
+	param1 := ""
 	if len(tokens) > 1 {
-		itemName = tokens[1]
+		param1 = tokens[1]
 	}
 	loc := LocationMap[player.CurrentLocation]
 	switch command {
-	case "go":
-		fallthrough
 	case "goto":
-		if loc.CanGoTo(strings.ToLower(itemName)) {
-			locName, err := FindLocationName(strings.ToLower(itemName))
+		if loc.CanGoTo(strings.ToLower(param1)) {
+			locName, err := FindLocationName(strings.ToLower(param1))
 			if err != nil {
-				Output("red", "Can't go to "+itemName+" from here.")
+				Output("red", "Can't go to "+param1+" from here.")
 			} else {
 				player.CurrentLocation = locName
 			}
 		} else {
-			Output("red", "Can't go to "+itemName+" from here.")
-		}
-	case "get":
-		err, index, itm := FindItemByName(itemName)
-		//Make sure we do not pick it up twice
-		if err == nil && itm.ItemInRoom(loc) && !itm.ItemOnPlayer(player) {
-			player.Items = append(player.Items, index) // Add Item to Actor's bag
-			itm.RemoveItemFromRoom(loc)
-		} else {
-			Output("Could not get " + itemName)
-		}
-	case "open":
-		OpenItem(player, itemName)
-	case "inv":
-		Output("yellow", "Your Inventory: ")
-		for _, itm := range player.Items {
-			Output("yellow", "\t"+Items[itm].Name)
+			Output("red", "Can't go to "+param1+" from here.")
 		}
 	case "help":
 		Output("blue", "Commands:")
-		Output("blue", "\tgo <Location Name> - Move to the new location")
-		Output("blue", "\tattack - Attacks opponent(s)")
-		Output("blue", "\tblock - Block incoming attack")
-		Output("blue", "\trun - Escape attack")
-		Output("blue", "\tget <Item Name> - Pick up item")
-		Output("blue", "\topen <Item Name> - Open an iten if it can be opened")
-		Output("blue", "\tinv - Show what you are carrying\n\n")
+		Output("blue", "\tgoto <Location Name> - Move to the new location")
+		Output("blue", "\thelp View this help screen")
+		Output("blue", "\tquit Abandon your change and exit the game")
+		Output("blue", "\n\n")
 	case "quit":
 		Output("green", "Goodbye...")
 		os.Exit(0)

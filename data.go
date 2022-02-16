@@ -4,15 +4,6 @@ var Messages = map[string]string{
 	"welcome": "Welcome to wikiventure!\nYou may type 'help' for help, or 'quit' to exit.\n",
 }
 
-// Leftover from code I copied, not currently using these
-// Using items seemed buggy, so if we ever reactive this,
-// we may have to fix some things.
-var Items = map[int]*Item{
-	1: {Name: "Key"},
-	2: {Name: "Chest", ItemForUse: 1, Contains: []int{3}},
-	3: {Name: "Medal"},
-}
-
 var Tactics = map[int]*Tactic{
 	1: {Name: "Good suggestion", minAtt: 5, maxAtt: 15},
 	2: {Name: "Bad suggestion", minAtt: 1, maxAtt: 15},
@@ -41,8 +32,8 @@ var Events = map[string]*Event{
 var LocationMap = map[string]*Location{
 	"CommandLine": {Description: "You just pushed your first change.", Transitions: []string{"Phabricator", "Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{}},
 	"Phab":        {Description: "You are looking at your Phabricator task.", Transitions: []string{"Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "unsolicitedCriticism"}},
-	"Gerrit":      {Description: "You are looking at  your change in Gerrit.", Transitions: []string{"Phab", "Chat", "Meeting", "AFK"}, Events: []string{}}, // Items: []int{2}},
+	"Gerrit":      {Description: "You are looking at  your change in Gerrit.", Transitions: []string{"Phab", "Chat", "Meeting", "AFK"}, Events: []string{}},
 	"Chat":        {Description: "You are in Slack/Element/IRC/whatever-you-prefer.", Transitions: []string{"Phab", "Gerrit", "Meeting", "AFK"}, Events: []string{"insightfulComment"}},
-	"Meeting":     {Description: "You are in Google Meet", Transitions: []string{"Phab", "Gerrit", "Chat", "AFK"}, Events: []string{"unsolicitedCriticism"}}, // Items: []int{1}},
+	"Meeting":     {Description: "You are in Google Meet", Transitions: []string{"Phab", "Gerrit", "Chat", "AFK"}, Events: []string{"unsolicitedCriticism"}},
 	"AFK":         {Description: "You are away from your computer, living your real life", Transitions: []string{"Phab", "Gerrit", "Chat", "Meeting"}, Events: []string{"recharging"}},
 }
