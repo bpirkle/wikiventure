@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-func ProcessCommands(game *Game, input string) {
-	Output("yellow", "======================================================================")
+func ProcessCommands(g *Game, input string) {
+	g.Output(ColorTypes["separator"], "======================================================================")
 	tokens := strings.Fields(input)
 	if len(tokens) == 0 {
-		Output("red", "No command received.")
+		g.Output(ColorTypes["error"], "No command received.")
 		return
 	}
 	command := strings.ToLower(tokens[0])
@@ -19,26 +19,26 @@ func ProcessCommands(game *Game, input string) {
 	}
 	switch command {
 	case "goto":
-		loc := LocationMap[game.Player.CurrentLocation]
+		loc := LocationMap[g.Player.CurrentLocation]
 		locName, err := FindLocationName(strings.ToLower(param1))
 		if err != nil {
-			Output("red", err)
+			g.Output(ColorTypes["error"], err)
 		} else if loc.CanGoTo(strings.ToLower(locName)) {
-			game.Player.CurrentLocation = locName
+			g.Player.CurrentLocation = locName
 		} else {
-			Output("red", "Can't go to "+param1+" from here.")
+			g.Output(ColorTypes["error"], "Can't go to "+param1+" from here.")
 		}
 	case "color":
-		game.setColorScheme(param1)
+		g.setColorScheme(param1)
 	case "help":
-		Output("blue", "Commands:")
-		Output("blue", "\tgoto <Location Name> - Move to the new location")
-		Output("blue", "\tcolor <dark|light|none> - Set text colors for a dark or light terminal background (or just disable colors)")
-		Output("blue", "\thelp View this help screen")
-		Output("blue", "\tquit Abandon your change and exit the game")
-		Output("blue", "\n\n")
+		g.Output(ColorTypes["alert"], "Commands:")
+		g.Output(ColorTypes["alert"], "\tgoto <Location Name> - Move to the new location")
+		g.Output(ColorTypes["alert"], "\tcolor <dark|light|none> - Set text colors for a dark/light terminal background (or 	disable colors)")
+		g.Output(ColorTypes["alert"], "\thelp View this help screen")
+		g.Output(ColorTypes["alert"], "\tquit Abandon your change and exit the game")
+		g.Output(ColorTypes["alert"], "\n\n")
 	case "quit":
-		Output("green", "You have abandoned your change. Goodbye...")
+		g.Output(ColorTypes["alert"], "You have abandoned your change. Goodbye...")
 		os.Exit(0)
 	default:
 	}

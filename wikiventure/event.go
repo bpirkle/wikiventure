@@ -13,7 +13,7 @@ type Event struct {
 	Evt         string
 }
 
-func (e *Event) ProcessEvent(player *Actor) int {
+func (e *Event) ProcessEvent(g *Game) int {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	moraleAdjustment := 0
@@ -23,16 +23,16 @@ func (e *Event) ProcessEvent(player *Actor) int {
 			reviewer := new(Actor)
 			*reviewer = *Reviewers[1+rand.Intn(len(Reviewers)-1)]
 			reviewer.Npc = true
-			Output("green", "\tA "+reviewer.Name+" reviews your code.")
-			Output("green", "\tCode Review ends when you reach 100% consensus, one of you reaches 0 Morale.")
+			g.Output(ColorTypes["alert"], "\tA "+reviewer.Name+" reviews your code.")
+			g.Output(ColorTypes["normal"], "\tCode Review ends when you reach 100% consensus, or one of you reaches 0 Morale.")
 
-			actors := Actors{*reviewer, *player}
-			moraleAdjustment = runReview(actors)
+			actors := Actors{*reviewer, g.Player}
+			moraleAdjustment = runReview(g, actors)
 		} else {
 			moraleAdjustment = e.Morale
-			Output("green", "\t"+e.Description+" affecting your morale by ", e.Morale)
+			g.Output(ColorTypes["alert"], "\t"+e.Description+" affecting your morale by ", e.Morale)
 			if e.Evt != "" {
-				moraleAdjustment += Events[e.Evt].ProcessEvent(player)
+				moraleAdjustment += Events[e.Evt].ProcessEvent(g)
 			}
 		}
 	}

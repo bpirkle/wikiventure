@@ -10,7 +10,6 @@ import (
 )
 
 // Game top-level structure for the game
-// Not doing much with this yet, but it may eventually prove useful
 type Game struct {
 	Player      Actor
 	ColorScheme string
@@ -37,13 +36,13 @@ func (g *Game) Play() {
 
 	lastLocation := ""
 
-	Output("blue", Messages["welcome"])
+	g.Output(ColorTypes["alert"], Messages["welcome"])
 	for {
+		g.Output(ColorTypes["normal"], LocationMap[g.Player.CurrentLocation].Description)
 		if g.Player.CurrentLocation == lastLocation {
-			Output("red", "You haven't gone anywhere. Type 'help' for available commands.")
+			g.Output(ColorTypes["error"], "You haven't gone anywhere. Type 'help' for available commands.")
 		} else {
 			lastLocation = g.Player.CurrentLocation
-			Output("blue", LocationMap[g.Player.CurrentLocation].Description)
 
 			// We really shouldn't process an event unless location has changed.
 			// Otherwise you can stay in AFK forever and get crazy morale by hitting Return over and over
@@ -51,17 +50,17 @@ func (g *Game) Play() {
 			// a command, which is a little confusing.
 			g.ProcessEvents(LocationMap[g.Player.CurrentLocation].Events)
 			if g.Player.Morale <= 0 {
-				Output("white", "\nYou have given up hope on your change. Game over.")
+				g.Output(ColorTypes["alert"], "\nYou have given up hope on your change. Game over.")
 				return
 			} else {
-				Output("white", "\tYou are still working on your change.")
+				g.Output(ColorTypes["normal"], "\tYou are still working on your change.")
 			}
-			Output("blue", "\tMorale:", g.Player.Morale)
+			g.Output(ColorTypes["normal"], "\tMorale:", g.Player.Morale)
 		}
 
-		Output("green", "You can go to these places:")
+		g.Output(ColorTypes["prompt"], "You can go to these places:")
 		for _, loc := range LocationMap[g.Player.CurrentLocation].Transitions {
-			Outputf("green", "\t%s", loc)
+			g.Outputf(ColorTypes["prompt"], "\t%s", loc)
 		}
 		cmd := UserInputln()
 		ProcessCommands(g, cmd)
@@ -70,36 +69,50 @@ func (g *Game) Play() {
 
 func (g *Game) ProcessEvents(events []string) {
 	for _, evtName := range events {
-		g.Player.Morale += Events[evtName].ProcessEvent(&g.Player)
+		g.Player.Morale += Events[evtName].ProcessEvent(g)
 	}
 }
 
-func Outputf(c string, format string, args ...interface{}) {
+func (g *Game) Outputf(c string, format string, args ...interface{}) {
 	s := fmt.Sprintf(format, args...)
-	Output(c, s)
+	g.Output(c, s)
 }
 
-func Output(c string, args ...interface{}) {
+func (g *Game) Output(c string, args ...interface{}) {
 	s := fmt.Sprint(args...)
 
-	col := color.WhiteString
-	switch c {
-	case "green":
-		col = color.GreenString
-	case "red":
-		col = color.RedString
-	case "blue":
-		col = color.BlueString
-	case "yellow":
-		col = color.YellowString
-	}
-	fmt.Fprintln(Out, col(s))
+	if g.ColorScheme == "none" {
+		_, _ = fmt.Fprintln(Out, s)
+	} else {
+		col := color.BlackString
 
-	//	fmt.Fprintln(Out, s)
+		if g.ColorScheme == "dark" {
+			col = color.WhiteString
+		}
+		switch c {
+		case "green":
+			col = color.GreenString
+		case "red":
+			if g.ColorScheme == "dark" {
+				col = color.HiMagentaString
+			} else {
+				col = color.RedString
+			}
+		case "blue":
+			if g.ColorScheme == "dark" {
+				col = color.CyanString
+			} else {
+				col = color.BlueString
+			}
+		case "yellow":
+			col = color.YellowString
+		}
+		_, _ = fmt.Fprintln(Out, col(s))
+	}
 }
 
 func UserInput(i *int) {
-	fmt.Fscan(In, i)
+	_, _ = fmt.Fscan(In, i)
 }
 
 func UserInputln() string {
@@ -111,7 +124,7 @@ func UserInputln() string {
 
 func UserInputContinue() string {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("\n Press return to continue the code review")
+	fmt.Print("\n Press return to proceed to the next patchset")
 	text, _ := reader.ReadString('\n')
 	return text
 }
@@ -125,6 +138,6 @@ func (g *Game) setColorScheme(color string) {
 	case "none":
 		g.ColorScheme = "none"
 	default:
-		Output("red", "Unrecognized color scheme.")
+		g.Output(ColorTypes["error"], "Unrecognized color scheme.")
 	}
 }

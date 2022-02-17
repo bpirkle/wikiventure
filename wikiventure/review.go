@@ -4,22 +4,25 @@ import (
 	"math/rand"
 )
 
-func runReview(actors Actors) int {
+func runReview(g *Game, actors Actors) int {
 	playerMoraleEffect := 0
 	consensus := 0
 	round := 1
 	action := 0
-	outputActors("green", actors)
+	for x := 0; x < actors.Len(); x++ {
+		actors[x].Output(g, ColorTypes["normal"])
+	}
+
 	for {
-		Output("green", "\nCode Review patchset ", round, " begins...")
+		g.Output(ColorTypes["normal"], "\nCode Review patchset ", round, " begins...")
 		for x := 0; x < actors.Len(); x++ {
 			if actors[x].Morale <= 0 {
 				continue
 			}
 			if !actors[x].Npc {
-				Output("blue", "What do you want to do?")
+				g.Output(ColorTypes["prompt"], "What do you want to do?")
 				for option := 0; option < len(actors[x].Actions); option++ {
-					Output("blue", "\t", option+1, " - ", Actions[actors[x].Actions[option]].Name)
+					g.Output(ColorTypes["prompt"], "\t", option+1, " - ", Actions[actors[x].Actions[option]].Name)
 				}
 				UserInput(&action)
 				action--
@@ -45,9 +48,9 @@ func runReview(actors Actors) int {
 					consensus = 100
 				}
 
-				Output("green", "\t"+actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
-				actors[tgt].Output("blue")
-				Output("green", "\tConsensus is at ", consensus, "%")
+				g.Output(ColorTypes["alert"], "\t"+actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
+				actors[tgt].Output(g, ColorTypes["normal"])
+				g.Output(ColorTypes["normal"], "\tConsensus is at ", consensus, "%")
 			}
 		}
 		if isReviewEnded(actors, consensus) {
@@ -58,14 +61,8 @@ func runReview(actors Actors) int {
 		UserInputContinue()
 	}
 
-	Output("green", "Code Review is over.\n")
+	g.Output(ColorTypes["normal"], "Code Review is over.\n")
 	return playerMoraleEffect
-}
-
-func outputActors(color string, actors Actors) {
-	for x := 0; x < actors.Len(); x++ {
-		actors[x].Output(color)
-	}
 }
 
 // This is a little silly, because npcs can only ever target the player,
