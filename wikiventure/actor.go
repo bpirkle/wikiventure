@@ -25,5 +25,5 @@ func (slice Actors) Len() int {
 }
 
 func (a *Actor) Output(g *Game, c string) {
-	g.Output(c, "\t", a.Name, ": Morale ", a.Morale)
+	g.Output(c, "\t", a.Name, " Morale: ", a.Morale)
 }

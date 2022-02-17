@@ -48,7 +48,7 @@ func runReview(g *Game, actors Actors) int {
 					consensus = 100
 				}
 
-				g.Output(ColorTypes["alert"], "\t"+actors[x].Name+" uses ", actionName, " to affect Morale by ", effect, ".")
+				g.Output(ColorTypes["alert"], "\t"+actors[x].Name+" makes ", actionName, ", affecting ", actors[tgt].Name, " Morale by ", effect, ".")
 				actors[tgt].Output(g, ColorTypes["normal"])
 				g.Output(ColorTypes["normal"], "\tConsensus is at ", consensus, "%")
 			}

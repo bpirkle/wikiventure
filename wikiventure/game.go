@@ -29,7 +29,7 @@ func (g *Game) Play() {
 
 	// Should we prompt people for their name instead?
 	g.Player = *new(Actor)
-	g.Player.Name = "Jimmy Wales"
+	g.Player.Name = "Player" // keep this gender/nationality neutral. We could prompt for this...
 	g.Player.Morale = 100
 	g.Player.Actions = []int{1, 2, 3, 4, 5, 6}
 	g.Player.CurrentLocation = "CommandLine"
@@ -55,7 +55,7 @@ func (g *Game) Play() {
 			} else {
 				g.Output(ColorTypes["normal"], "\tYou are still working on your change.")
 			}
-			g.Output(ColorTypes["normal"], "\tMorale:", g.Player.Morale)
+			g.Output(ColorTypes["normal"], "\tMorale: ", g.Player.Morale)
 		}
 
 		g.Output(ColorTypes["prompt"], "You can go to these places:")
