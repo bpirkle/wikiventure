@@ -30,7 +30,16 @@ func (e *Event) ProcessEvent(g *Game) int {
 			moraleAdjustment = runReview(g, actors)
 		} else {
 			moraleAdjustment = e.Morale
-			g.Output(ColorTypes["alert"], "\t"+e.Description+" affecting your morale by ", e.Morale)
+			word := "increasing"
+			absMorale := e.Morale
+			if e.Morale < 0 {
+				word = "decreasing"
+				absMorale = -absMorale
+			}
+
+			// Warning: if the chained events in data.go are accidentally set up such that event A chains to event B,
+			// and event B chains to event A, this will cause infinite AB recursion and crash the game.
+			g.Output(ColorTypes["alert"], "\t"+e.Description+" ", word, " your morale by ", absMorale)
 			if e.Evt != "" {
 				moraleAdjustment += Events[e.Evt].ProcessEvent(g)
 			}

@@ -36,7 +36,7 @@ var Events = map[string]*Event{
 	"wikilove":     {Type: "Story", Chance: 25, Description: "A colleague sends you wikilove", Morale: +40, Evt: ""},
 	"unbreakNow":   {Type: "Story", Chance: 25, Description: "You broke the wikis", Morale: -30, Evt: ""},
 	"extraHoliday": {Type: "Story", Chance: 20, Description: "You are granted an extra holiday", Morale: +30, Evt: "recharging"},
-	"recharging":   {Type: "Story", Chance: 100, Description: "You do non-computer things you enjoy ", Morale: +20, Evt: ""},
+	"recharging":   {Type: "Story", Chance: 100, Description: "You do non-computer things you enjoy", Morale: +20, Evt: ""},
 	"spam":         {Type: "Story", Chance: 75, Description: "You receive annoying spam", Morale: -5, Evt: ""},
 }
 

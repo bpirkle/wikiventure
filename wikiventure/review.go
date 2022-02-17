@@ -33,14 +33,21 @@ func runReview(g *Game, actors Actors) int {
 			if tgt != -1 {
 				var effect, actionName = actors[x].Act(action)
 				actors[tgt].Morale += effect
+				if actors[tgt].Morale < 0 {
+					actors[tgt].Morale = 0
+				}
 
 				// Remember cumulative effect on player's morale so we can return it later
 				if !actors[tgt].Npc {
 					playerMoraleEffect += effect
 				}
 
+				word := "increasing"
+				absEffect := effect
 				if effect < 0 {
 					consensus -= effect
+					absEffect = -effect
+					word = "decreasing"
 				} else {
 					consensus += effect
 				}
@@ -48,8 +55,7 @@ func runReview(g *Game, actors Actors) int {
 					consensus = 100
 				}
 
-				g.Output(ColorTypes["alert"], "\t"+actors[x].Name+" makes ", actionName, ", affecting ", actors[tgt].Name, " Morale by ", effect, ".")
-				actors[tgt].Output(g, ColorTypes["normal"])
+				g.Output(ColorTypes["alert"], "\t"+actors[x].Name+" makes ", actionName, ", ", word, " ", actors[tgt].Name, " Morale by ", absEffect, " to ", actors[tgt].Morale, ".")
 				g.Output(ColorTypes["normal"], "\tConsensus is at ", consensus, "%")
 			}
 		}
