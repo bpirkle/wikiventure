@@ -24,18 +24,19 @@ var Reviewers = map[int]*Actor{
 
 var Events = map[string]*Event{
 	"codeReview":   {Type: "CodeReview", Chance: 25, Description: "You receive a Code Review comment", Morale: 0, Evt: ""},
-	"criticism":    {Type: "Story", Chance: 25, Description: "Someone criticises you unfairly", Morale: -50, Evt: ""},
-	"wikilove":     {Type: "Story", Chance: 25, Description: "A colleague sends you wikilove", Morale: +50, Evt: ""},
+	"criticism":    {Type: "Story", Chance: 25, Description: "Someone criticises you unfairly", Morale: -40, Evt: ""},
+	"wikilove":     {Type: "Story", Chance: 25, Description: "A colleague sends you wikilove", Morale: +40, Evt: ""},
 	"unbreakNow":   {Type: "Story", Chance: 25, Description: "You broke the wikis", Morale: -30, Evt: ""},
 	"extraHoliday": {Type: "Story", Chance: 20, Description: "You are granted an extra holiday", Morale: +30, Evt: "recharging"},
-	"recharging":   {Type: "Story", Chance: 100, Description: "Doing non-computer things you enjoy improves your morale", Morale: +10, Evt: ""},
+	"recharging":   {Type: "Story", Chance: 100, Description: "Doing non-computer things you enjoy improves your morale", Morale: +20, Evt: ""},
 }
 
 var LocationMap = map[string]*Location{
-	"CommandLine": {Description: "You just pushed your first change.", Transitions: []string{"Phab", "Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{}},
-	"Phab":        {Description: "You are looking at your Phabricator task.", Transitions: []string{"Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
-	"Gerrit":      {Description: "You are looking at  your change in Gerrit.", Transitions: []string{"Phab", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "unbreakNow", "extraHoliday"}},
-	"Chat":        {Description: "You are in Slack/Element/IRC/whatever-you-prefer.", Transitions: []string{"Phab", "Gerrit", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
-	"Meeting":     {Description: "You are in Google Meet", Transitions: []string{"Phab", "Gerrit", "Chat", "AFK"}, Events: []string{"codeReview", "criticism", "unbreakNow", "extraHoliday"}},
-	"AFK":         {Description: "You are away from your computer, living your real life", Transitions: []string{"Phab", "Gerrit", "Chat", "Meeting"}, Events: []string{"recharging"}},
+	"CommandLine": {Description: "You just pushed your first change.", Transitions: []string{"Phab", "Gerrit", "Gitlab", "Chat", "Meeting", "AFK"}, Events: []string{}},
+	"Phab":        {Description: "You are looking at your Phabricator task.", Transitions: []string{"Gerrit", "Gitlab", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
+	"Gerrit":      {Description: "You are looking at  your change in Gerrit.", Transitions: []string{"Phab", "Gitlab", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
+	"Gitlab":      {Description: "You are in Gitlab. There aren't many people here.", Transitions: []string{"Phab", "Gerrit", "Chat", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
+	"Chat":        {Description: "You are in Slack/Element/IRC/whatever-you-prefer.", Transitions: []string{"Phab", "Gerrit", "Gitlab", "Meeting", "AFK"}, Events: []string{"codeReview", "criticism", "wikilove", "unbreakNow"}},
+	"Meeting":     {Description: "You are in Google Meet", Transitions: []string{"Phab", "Gerrit", "Gitlab", "Chat"}, Events: []string{"codeReview", "criticism", "unbreakNow", "wikilove", "extraHoliday"}},
+	"AFK":         {Description: "You are away from your computer, living your real life", Transitions: []string{"Phab", "Gerrit", "Gitlab", "Chat", "Meeting"}, Events: []string{"recharging"}},
 }

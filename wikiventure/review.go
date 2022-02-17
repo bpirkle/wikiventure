@@ -17,7 +17,7 @@ func runReview(actors Actors) int {
 				continue
 			}
 			if !actors[x].Npc {
-				Output("blue", "What Do you want to do?")
+				Output("blue", "What do you want to do?")
 				for option := 0; option < len(actors[x].Actions); option++ {
 					Output("blue", "\t", option+1, " - ", Actions[actors[x].Actions[option]].Name)
 				}
@@ -31,7 +31,7 @@ func runReview(actors Actors) int {
 				var effect, actionName = actors[x].Act(action)
 				actors[tgt].Morale += effect
 
-				// Remember effect on player's morale so we can return it
+				// Remember cumulative effect on player's morale so we can return it later
 				if !actors[tgt].Npc {
 					playerMoraleEffect += effect
 				}

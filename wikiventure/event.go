@@ -24,6 +24,7 @@ func (e *Event) ProcessEvent(player *Actor) int {
 			*reviewer = *Reviewers[1+rand.Intn(len(Reviewers)-1)]
 			reviewer.Npc = true
 			Output("green", "\tA "+reviewer.Name+" reviews your code.")
+			Output("green", "\tCode Review ends when you reach 100% consensus, one of you reaches 0 Morale.")
 
 			actors := Actors{*reviewer, *player}
 			moraleAdjustment = runReview(actors)
