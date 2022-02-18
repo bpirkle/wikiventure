@@ -1,4 +1,4 @@
-module wikiventure
+module ziki
 
 go 1.17
 

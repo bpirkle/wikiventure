@@ -1,4 +1,4 @@
-package wikiventure
+package ziki
 
 // Actor
 // Used for both the player and all npcs

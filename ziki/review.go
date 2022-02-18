@@ -1,4 +1,4 @@
-package wikiventure
+package ziki
 
 import (
 	"math/rand"

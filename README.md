@@ -1,6 +1,6 @@
-# Wikiventure
+# Ziki: The Search for Merge
 
-This is a silly spoofish game about mediawiki code review. It is not intended to be taken seriously.
+This is a silly spoofish game about mediawiki code review. It is not intended to be taken seriously. The name is a combination of "Zork" and "Wiki".
 
 You play as a new developer trying to get your first change to mediawiki merged. Your odds of achieving this are ... well ... you'll see.
 

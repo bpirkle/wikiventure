@@ -1,7 +1,7 @@
-package wikiventure
+package ziki
 
 var Messages = map[string]string{
-	"welcome": "Welcome to wikiventure!\nYou are a new developer trying to get your first change merged\nThe game ends when you either get your patch merged, or run out of Morale and abandon it.\nType 'help' for help, or 'quit' to exit.\n",
+	"welcome": "Welcome to Ziki: The Search for Merge!\nYou are a new developer trying to get your first change merged\nThe game ends when you either get your patch merged, or run out of Morale and abandon it.\nType 'help' for help, or 'quit' to exit.\n",
 }
 
 var ColorTypes = map[string]string{

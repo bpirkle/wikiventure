@@ -1,10 +1,8 @@
 package main
 
-import (
-	"wikiventure/wikiventure"
-)
+import "ziki/ziki"
 
 func main() {
-	var game = *new(wikiventure.Game)
+	var game = *new(ziki.Game)
 	game.Play()
 }
